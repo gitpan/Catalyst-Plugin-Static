@@ -5,7 +5,7 @@ WriteMakefile(
     AUTHOR    => 'Sebastian Riedel (sri@oook.de)',
     PREREQ_PM => {
         Catalyst     => '2.99',
-        File::MMagic => 0,
+        File::MimeInfo::Magic => '0.11',
         File::Slurp  => 0
     },
     VERSION_FROM => 'Static.pm'

@@ -1,6 +1,10 @@
 Revision history for Perl extension Catalyst::Plugin::Static.
+0.05  Mon Mar 21 14:32:00 2005
+        - Changed to File::MimeInfo::Magic for greater justice
+          (and correct CSS/JS mimetypes)
 0.04  Thu Mar 17 05:55:00 2005
         - Added finalize section to allow empty content for not-modified
+        - More tests (Christian Hansen <ch@ngmedia.com>)
 0.03  Thu Mar 17 01:47:00 2005
         - Added Content_length/last_modified (Christian Hansen <ch@ngmedia.com>)
         - Added modified-since check (Christian Hansen <ch@ngmedia.com>)
