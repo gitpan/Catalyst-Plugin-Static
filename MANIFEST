@@ -4,4 +4,5 @@ MANIFEST			This list of files
 META.yml
 README
 Static.pm
-test.pl
+t/01use.t
+t/02static.t

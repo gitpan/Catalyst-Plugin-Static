@@ -5,8 +5,9 @@ use base 'Class::Data::Inheritable';
 use File::MMagic;
 use File::Slurp;
 use File::stat;
+use NEXT;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 __PACKAGE__->mk_classdata('mmagic');
 __PACKAGE__->mmagic( File::MMagic->new );
@@ -34,6 +35,16 @@ Serve static files from config->{root}.
 =head3 serve_static
 
 =cut
+
+sub finalize {
+    my $c = shift;
+    if ( $c->res->status =~ /^(1\d\d|[23]04)$/ ) {
+        $c->res->headers->remove_content_headers;
+        return $c->finalize_headers;
+    }
+    return $c->NEXT::finalize(@_);
+
+}
 
 sub serve_static {
     my $c    = shift;
@@ -67,6 +78,10 @@ sub serve_static_file {
         $c->log->debug(qq/Serving file "$path" as "$type"/) if $c->debug;
         return 1;
     }
+
+    $c->log->debug(qq/Failed to serve file "$path"/) if $c->debug;
+    $c->res->status(404);
+
     return 0;
 }
 
