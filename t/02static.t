@@ -1,6 +1,6 @@
 package TestApp;
 
-use Catalyst qw[Static];
+use Catalyst qw[-Engine=Test Static];
 use File::Spec::Functions qw[catpath splitpath rel2abs];
 
 __PACKAGE__->config(
