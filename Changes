@@ -1,5 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::Static.
-
+        - Added Content_length/last_modified (Christian Hansen <ch@ngmedia.com>)
+        - Added modified-since check (Christian Hansen <ch@ngmedia.com>)
+0.03  Thu Mar 17 01:47:00 2005
+        - http://home.ngmedia.net/chansen/catalyst/Catalyst-Plugin-Static.patch
 0.02  Sat Feb 19 20:00:00 2005
         - override content/type
 
