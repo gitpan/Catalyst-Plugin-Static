@@ -2,15 +2,13 @@ package Catalyst::Plugin::Static;
 
 use strict;
 use base 'Class::Data::Inheritable';
-use File::MMagic;
+use File::MimeInfo::Magic;
 use File::Slurp;
 use File::stat;
 use NEXT;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
-__PACKAGE__->mk_classdata('mmagic');
-__PACKAGE__->mmagic( File::MMagic->new );
 
 =head1 NAME
 
@@ -69,8 +67,8 @@ sub serve_static_file {
             }
         }
 
+        my $type = shift || mimetype($path);
         my $content = read_file($path);
-        my $type = shift || __PACKAGE__->mmagic->checktype_contents($content);
         $c->res->headers->content_type($type);
         $c->res->headers->content_length( $stat->size );
         $c->res->headers->last_modified( $stat->mtime );
@@ -93,6 +91,7 @@ L<Catalyst>.
 
 Sebastian Riedel, C<sri@cpan.org>
 Christian Hansen <ch@ngmedia.com>
+Marcus Ramberg <mramberg@cpan.org>
 
 =head1 THANK YOU
 
