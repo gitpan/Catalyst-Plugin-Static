@@ -6,3 +6,4 @@ README
 Static.pm
 t/01use.t
 t/02static.t
+t/lib/TestApp.pm

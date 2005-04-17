@@ -7,7 +7,7 @@ use File::Slurp;
 use File::stat;
 use NEXT;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 =head1 NAME
@@ -86,6 +86,11 @@ sub serve_static_file {
 =head1 SEE ALSO
 
 L<Catalyst>.
+
+=head1 CAVEATS
+
+This module is not as optimized for static files as a normal web
+server, and is most useful for stand alone operation and development.
 
 =head1 AUTHOR
 
