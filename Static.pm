@@ -7,7 +7,7 @@ use File::Slurp;
 use File::stat;
 use NEXT;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 =head1 NAME
@@ -30,7 +30,12 @@ Serve static files from config->{root}.
 
 =head2 METHODS
 
-=head3 serve_static
+=over 4
+
+=item finalize
+
+This plugin overrides finalize to make sure content is removed on
+redirect.
 
 =cut
 
@@ -44,11 +49,25 @@ sub finalize {
 
 }
 
+=item serve_static
+
+Call this method from your action to serve requested path 
+as a static file from your root. takes an optional content_type 
+parameter
+
+=cut
+
 sub serve_static {
     my $c    = shift;
     my $path = $c->config->{root} . '/' . $c->req->path;
     return $c->serve_static_file( $path, @_ );
 }
+
+=item serve_static_file <file>
+
+Serve a specified static file.
+
+=cut 
 
 sub serve_static_file {
     my $c    = shift;
@@ -82,6 +101,8 @@ sub serve_static_file {
 
     return 0;
 }
+
+=back
 
 =head1 SEE ALSO
 
