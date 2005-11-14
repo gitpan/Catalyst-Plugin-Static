@@ -1,4 +1,6 @@
 Revision history for Perl extension Catalyst::Plugin::Static.
+0.10  Mon Nov 14 11:15:00 2005
+        - better fix for security issue.
 0.09  Mon Nov 14 09:33:00 2005
         - Make sure ::Static can't serve files outside of $config->{root}
 0.08  Sun Apr 17 16:43:00 2005

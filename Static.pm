@@ -3,12 +3,12 @@ package Catalyst::Plugin::Static;
 use strict;
 use base 'Class::Data::Inheritable';
 use File::MimeInfo::Magic;
-use File::Slurp;
 use File::stat;
-use Path::Class qw/file/;
+use File::Slurp;
+use File::Spec::Functions qw/catdir no_upwards splitdir/;
 use NEXT;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 =head1 NAME
@@ -74,12 +74,9 @@ Serve a specified static file.
 
 sub serve_static_file {
     my $c    = shift;
-    my $path = shift;
-    
-    
-    $path = file ($path)->absolute->stringify;
-    my $root= $c->config->{root};
-    if ( $path =~ m/^$root/  && -f $path ) {
+    my $path = catdir(no_upwards(splitdir( shift )));
+
+    if ( -f $path ) {
 
         my $stat = stat($path);
 
