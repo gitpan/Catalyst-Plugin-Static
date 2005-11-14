@@ -5,9 +5,10 @@ use base 'Class::Data::Inheritable';
 use File::MimeInfo::Magic;
 use File::Slurp;
 use File::stat;
+use Path::Class qw/file/;
 use NEXT;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 
 =head1 NAME
@@ -26,7 +27,9 @@ Catalyst::Plugin::Static - Serve static files with Catalyst
 
 =head1 DESCRIPTION
 
-Serve static files from config->{root}.
+Serve static files from config->{root}. Note that for most purposes, you'll
+probably want to use L<Catalyst::Plugin::Static::Simple> rather than this
+one.
 
 =head2 METHODS
 
@@ -73,7 +76,10 @@ sub serve_static_file {
     my $c    = shift;
     my $path = shift;
     
-    if ( -f $path ) {
+    
+    $path = file ($path)->absolute->stringify;
+    my $root= $c->config->{root};
+    if ( $path =~ m/^$root/  && -f $path ) {
 
         my $stat = stat($path);
 
@@ -92,6 +98,9 @@ sub serve_static_file {
         $c->res->headers->content_length( $stat->size );
         $c->res->headers->last_modified( $stat->mtime );
         $c->res->output($content);
+        if ( $c->config->{static}->{no_logs} && $c->log->can('abort') ) {
+           $c->log->abort( 1 );
+	}
         $c->log->debug(qq/Serving file "$path" as "$type"/) if $c->debug;
         return 1;
     }
