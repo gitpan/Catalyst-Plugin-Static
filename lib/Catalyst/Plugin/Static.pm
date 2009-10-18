@@ -6,14 +6,14 @@ use File::MimeInfo::Magic;
 use File::stat;
 use File::Slurp;
 use File::Spec::Functions qw/catdir no_upwards splitdir/;
-use NEXT;
+use MRO::Compat;;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 =head1 NAME
 
-Catalyst::Plugin::Static - Serve static files with Catalyst
+Catalyst::Plugin::Static - DEPRECATED - Serve static files with Catalyst
 
 =head1 SYNOPSIS
 
@@ -27,9 +27,8 @@ Catalyst::Plugin::Static - Serve static files with Catalyst
 
 =head1 DESCRIPTION
 
-Serve static files from config->{root}. Note that for most purposes, you'll
-probably want to use L<Catalyst::Plugin::Static::Simple> rather than this
-one.
+Serve static files from config->{root}. You probably want to use
+use L<Catalyst::Plugin::Static::Simple> rather than this module.
 
 =head2 METHODS
 
@@ -46,31 +45,35 @@ sub finalize {
     my $c = shift;
     if ( $c->res->status =~ /^(1\d\d|[23]04)$/ ) {
         $c->res->headers->remove_content_headers;
-        return $c->finalize_headers;
+        $c->finalize_headers;
     }
-    return $c->NEXT::finalize(@_);
+    return $c->next::method(@_);
 
 }
 
 =item serve_static
 
-Call this method from your action to serve requested path 
-as a static file from your root. takes an optional content_type 
+Call this method from your action to serve requested path
+as a static file from your root. takes an optional content_type
 parameter
 
 =cut
 
 sub serve_static {
     my $c    = shift;
+    my $r = eval {
     my $path = $c->config->{root} . '/' . $c->req->path;
-    return $c->serve_static_file( $path, @_ );
+    $c->serve_static_file( $path, @_ );
+    };
+    warn("serve_static puked $@") if $@;
+    $r;
 }
 
 =item serve_static_file <file>
 
 Serve a specified static file.
 
-=cut 
+=cut
 
 sub serve_static_file {
     my $c    = shift;

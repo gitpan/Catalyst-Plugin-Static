@@ -1,4 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::Static.
+0.11  Sun Oct 18 19:11:00 2009
+        - Make tests pass again, clean up warnings with newer
+          Catalyst.
+        - Add clearer deprecation notice.
 0.10  Mon Nov 14 11:15:00 2005
         - better fix for security issue.
 0.09  Mon Nov 14 09:33:00 2005

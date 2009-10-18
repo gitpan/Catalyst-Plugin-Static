@@ -26,7 +26,8 @@ my $stat = stat($0);
     );
 
     ok( my $response = request($request),             'If Modified Since request' );
-    is( $response->code , 304,                        'Not Modified status code'  );
+    use Data::Dumper;
+    is( $response->code , 304,                        'Not Modified status code'  ) or warn Dumper($response);
     is( $response->content , '',                      'No content'                );
 }
 
